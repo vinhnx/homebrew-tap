@@ -1,16 +1,28 @@
 class Vtcode < Formula
-  desc "A Rust-based terminal coding agent with modular architecture supporting multiple LLM providers"
+  desc "Rust-based terminal coding agent with semantic code intelligence"
   homepage "https://github.com/vinhnx/vtcode"
-  version "0.131.0"
   license "MIT"
+  version "0.131.1"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/vinhnx/VTCode/releases/download/0.131.0/vtcode-0.131.0-aarch64-apple-darwin.tar.gz"
-      sha256 "401e2d61183d0041ffe8795078df49b556df7a78408fbda1e5bb676d16cc5c94"
+      url "https://github.com/vinhnx/vtcode/releases/download/#{version}/vtcode-#{version}-aarch64-apple-darwin.tar.gz"
+      sha256 "97567640ab2181c3db7b8f60f7f9796a193313aaf97bfe17a1a66e827e5c1630"
     else
-      url "https://github.com/vinhnx/VTCode/releases/download/0.131.0/vtcode-0.131.0-x86_64-apple-darwin.tar.gz"
-      sha256 "a79c8d46bc25e99320ffbb515e5a743c24aa3f510cb9adc798207ff807e41384"
+      url "https://github.com/vinhnx/vtcode/releases/download/#{version}/vtcode-#{version}-x86_64-apple-darwin.tar.gz"
+      sha256 "9f4c0ff1e8264bc24c0875d6c53227b662f12016c692b412c9fb42ca4a804338"
+    end
+  end
+
+  on_linux do
+    if Hardware::CPU.intel?
+      url "https://github.com/vinhnx/vtcode/releases/download/#{version}/vtcode-#{version}-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "ab77663ff1efd78bad21ac62a08e8ef885505ea8946895525e958d6e737207b2"
+    elsif Hardware::CPU.arm?
+      url "https://github.com/vinhnx/vtcode/releases/download/#{version}/vtcode-#{version}-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "a019429c3ca67d0e1e4975e09cf637517fed3c6d427aa1e2ac042dd10f82fc80"
+    else
+      odie "VT Code #{version} does not support this Linux architecture"
     end
   end
 
@@ -18,7 +30,32 @@ class Vtcode < Formula
     bin.install "vtcode"
   end
 
+  def caveats
+    <<~EOS
+      VT Code is now installed! To get started:
+
+      1. Set your API key environment variable:
+         export OPENAI_API_KEY="sk-..."
+         (or use ANTHROPIC_API_KEY, GEMINI_API_KEY, etc.)
+
+      2. Launch VT Code:
+         vtcode
+
+      Supported providers:
+        • OpenAI (OPENAI_API_KEY)
+        • Anthropic (ANTHROPIC_API_KEY)
+        • Google Gemini (GEMINI_API_KEY)
+        • xAI (XAI_API_KEY)
+        • DeepSeek (DEEPSEEK_API_KEY)
+        • OpenRouter (OPENROUTER_API_KEY)
+        • Ollama (local)
+
+      For more information, visit:
+        https://github.com/vinhnx/vtcode
+    EOS
+  end
+
   test do
-    system "#{bin}/vtcode", "--version"
+    assert_match version.to_s, shell_output("#{bin}/vtcode --version")
   end
 end
