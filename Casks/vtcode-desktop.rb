@@ -28,9 +28,10 @@ cask "vtcode-desktop" do
 
       brew install vinhnx/tap/vtcode
 
-    Release builds are ad hoc signed unless the release notes say they are notarized.
-    If macOS blocks the first launch, right-click VT Code.app in Applications and
-    choose Open, or allow it once in System Settings > Privacy & Security.
+    Release builds are ad hoc signed unless the release notes say they are notarized,
+    and Homebrew quarantines the download, so Gatekeeper blocks the first launch.
+    Allow it once in System Settings > Privacy & Security > Open Anyway, then open
+    the app again. Notarized releases open without that step.
 
     The desktop cask currently ships Apple Silicon builds; Intel Macs can still
     install from source with `vtcode desktop --install`.
