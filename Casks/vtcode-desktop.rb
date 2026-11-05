@@ -28,10 +28,20 @@ cask "vtcode-desktop" do
 
       brew install vinhnx/tap/vtcode
 
+    ONE-TIME macOS SECURITY STEP REQUIRED
+
     Release builds are ad hoc signed unless the release notes say they are notarized,
     and Homebrew quarantines the download, so Gatekeeper blocks the first launch.
-    Allow it once in System Settings > Privacy & Security > Open Anyway, then open
-    the app again. Notarized releases open without that step.
+
+    To allow it, once:
+      1. Open the app from Applications so macOS records the block
+      2. Open System Settings > Privacy & Security
+      3. Click "Open Anyway" next to the VT Code message
+      4. Open the app again (from Finder, or run: vtcode desktop)
+
+    "Open Anyway" only appears for about an hour after a blocked launch. macOS 15+
+    has no right-click > Open shortcut for unnotarized apps. Notarized releases
+    open without this step.
 
     The desktop cask currently ships Apple Silicon builds; Intel Macs can still
     install from source with `vtcode desktop --install`.
