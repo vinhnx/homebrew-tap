@@ -12,11 +12,13 @@ cask "vtcode-desktop" do
 
   app "VT Code.app"
 
+  # Only the GUI's own state is removed. `~/Library/Application Support/com.vinhnx.vtcode`
+  # and `~/Library/Caches/com.vinhnx.vtcode` belong to the shared CLI runtime
+  # (sessions, credentials, config), so `--zap` must leave them alone.
   zap trash: [
     "~/.vtcode/desktop",
-    "~/Library/Application Support/com.vinhnx.vtcode.desktop",
-    "~/Library/Caches/com.vinhnx.vtcode.desktop",
     "~/Library/Preferences/com.vinhnx.vtcode.desktop.plist",
+    "~/Library/Preferences/vtcode-desktop.plist",
     "~/Library/Saved Application State/com.vinhnx.vtcode.desktop.savedState",
   ]
 
